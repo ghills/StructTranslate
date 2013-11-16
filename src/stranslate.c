@@ -94,16 +94,15 @@ void strans_reverse_bytes
     uint8_t         cnt
     )
 {
-#define swap( a, b, t ) { t = a; a = b; b = t; }
+#define swap( a, b ) {uint8_t _t; _t = a; a = b; b = _t; }
 
-uint8_t temp;
 uint8_t i;
 
 assert( cnt > 0 );
 
 for( i = 0; i < ( cnt / 2 ); i++ )
     {
-    swap( data[i], data[cnt-1-i], temp );
+    swap( data[i], data[cnt-1-i] );
     }
     
 #undef swap
