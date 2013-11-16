@@ -36,7 +36,7 @@ type_map_t foo_map[] =
     strans_primitive( foo_t, uint8 ),
     strans_primitive( foo_t, uint16 ),
     strans_primitive( foo_t, uint32 ),
-    strans_struct( foo_t, subtype, subtype_map, cnt_of_array(subtype_map) ),
+    strans_struct( foo_t, subtype, subtype_map, array_cnt(subtype_map) ),
     strans_primitive_array( foo_t, arr, 4 ),
     strans_primitive( foo_t, uint32_2 )
     };
@@ -110,7 +110,7 @@ void print_foo_type( foo_t * str )
 
     ptr = (uint8_t *)str;
 
-    for( i = 0; i < cnt_of_array(foo_map); i++ )
+    for( i = 0; i < array_cnt(foo_map); i++ )
         {
         if( foo_map[i].elem_count > 1 )
             {
@@ -142,7 +142,7 @@ int main( int argc, char * argv[] )
     print_foo_type( &foo );
     putchar( '\n' );
 
-    strans_reverse_bytes_by_map( &foo, foo_map, cnt_of_array(foo_map) );
+    strans_reverse_bytes_by_map( &foo, foo_map, array_cnt(foo_map) );
 
     printf("AFTER:\n");
     print_foo_type( &foo );

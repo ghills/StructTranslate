@@ -14,6 +14,7 @@
  * Includes
  */
 
+#include <stddef.h>
 #include <stdint.h>
 
 
@@ -21,16 +22,12 @@
  *  Macros
  */
 
-#ifndef cnt_of_array
-#define cnt_of_array( arr ) ( sizeof(arr) / sizeof(arr[0]) )
-#endif
-
-#ifndef offsetof
-#define offsetof( t, f ) ( (uint16_t)(&(((t *)0)->f)) )
+#ifndef array_cnt
+#define array_cnt( arr ) ( sizeof(arr) / sizeof(arr[0]) )
 #endif
 
 #ifndef sizeof_field
-#define sizeof_field( t, f ) sizeof( ( (t * )0 )->f )
+#define sizeof_field( t, f ) sizeof( ( (t *)0 )->f )
 #endif
 
 #define strans_primitive_array( type, field, cnt ) \
