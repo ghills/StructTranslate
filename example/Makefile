@@ -23,7 +23,7 @@ libstranslate.a:
 	cd ../src; make
 
 foo: $(OBJ) libstranslate.a
-	gcc -o $@ $(OBJ) $(CFLAGS) $(LIBS)
+	gcc -o $@ $(OBJ) -Wall $(LIBS)
 
 .PHONY: clean
 
