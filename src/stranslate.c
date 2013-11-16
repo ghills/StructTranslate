@@ -13,8 +13,24 @@
 
 #include "stranslate.h"
 
+/*
+ * defines
+ */
 
 #define MAX_RECURSION_DEPTH ( 255 )
+
+/*
+ * declarations
+ */
+
+static void reverse_bytes_by_map
+    (
+    void * const data,
+    type_map_t const * const 
+                 map,
+    uint16_t     map_count,
+    uint8_t      iters_remain
+    );
 
 /* 
  * Private Functions
@@ -22,8 +38,9 @@
 
 static void reverse_bytes_by_map
     (
-    void       * data,
-    type_map_t * map,
+    void * const data,
+    type_map_t const * const 
+                 map,
     uint16_t     map_count,
     uint8_t      iters_remain
     )
@@ -73,8 +90,8 @@ for( i = 0; i < map_count; i++ )
 
 void strans_reverse_bytes
     (
-    uint8_t * data,
-    uint8_t   cnt
+    uint8_t * const data,
+    uint8_t         cnt
     )
 {
 #define swap( a, b, t ) { t = a; a = b; b = t; }
@@ -94,8 +111,9 @@ for( i = 0; i < ( cnt / 2 ); i++ )
 
 void strans_reverse_bytes_by_map
     (
-    void       * data,
-    type_map_t * map,
+    void * const data,
+    type_map_t const * const 
+                 map,
     uint16_t     map_count
     )
 {

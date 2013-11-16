@@ -66,14 +66,15 @@ typedef struct
 
 void strans_reverse_bytes
     (
-    uint8_t * data,
-    uint8_t   cnt
+    uint8_t * const data,
+    uint8_t         cnt
     );
 
 void strans_reverse_bytes_by_map
     (
-    void       * data,
-    type_map_t * map,
+    void * const data,
+    type_map_t const * const
+                 map,
     uint16_t     map_count
     );
 
