@@ -8,8 +8,68 @@
 
 #include <assert.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "stranslate.h"
+
+
+#define MAX_RECURSION_DEPTH ( 255 )
+
+/* 
+ * Private Functions
+ */
+
+static void reverse_bytes_by_map
+    (
+    void       * data,
+    type_map_t * map,
+    uint16_t     map_count,
+    uint8_t      iters_remain
+    )
+{
+uint16_t i;
+uint16_t j;
+
+assert( map_count > 0 );
+
+for( i = 0; i < map_count; i++ )
+    {
+    assert( map[i].elem_count > 0 );
+    
+    /* if the element is size 1, no need to do anything */
+    if( map[i].elem_size == 1 )
+        {
+        continue;
+        }
+    
+    for( j = 0; j < map[i].elem_count; j++ )
+        {
+        if( map[i].type_map )
+            {
+            /* nested structure, recurse! */
+            if( iters_remain > 0 )
+                {
+                reverse_bytes_by_map( (void *)( (uint8_t *)data + map[i].offset + (j * map[i].elem_size)), map[i].type_map, map[i].type_count, iters_remain - 1 );
+                }
+            else
+                {
+                perror("Recursion Depth");
+                exit(-1);
+                }
+            }
+        else
+            {
+            /* this field must be reversable */
+            strans_reverse_bytes( (void *)( (uint8_t *)data + map[i].offset + (j * map[i].elem_size)), map[i].elem_size );
+            }
+        }
+    }
+}
+
+/*
+ * Public Functions
+ */
 
 void strans_reverse_bytes
     (
@@ -39,34 +99,6 @@ void strans_reverse_bytes_by_map
     uint16_t     map_count
     )
 {
-uint16_t i;
-uint16_t j;
-
-assert( map_count > 0 );
-
-for( i = 0; i < map_count; i++ )
-    {
-    assert( map[i].elem_count > 0 );
-    
-    /* if the element is size 1, no need to do anything */
-    if( map[i].elem_size == 1 )
-        {
-        continue;
-        }
-    
-    for( j = 0; j < map[i].elem_count; j++ )
-        {
-        if( map[i].type_map )
-            {
-            /* nested structure, recurse! */
-            /* TODO: max depth limit this */
-            strans_reverse_bytes_by_map( (void *)( (uint8_t *)data + map[i].offset + (j * map[i].elem_size)), map[i].type_map, map[i].type_count );
-            }
-        else
-            {
-            /* this field must be reversable */
-            strans_reverse_bytes( (void *)( (uint8_t *)data + map[i].offset + (j * map[i].elem_size)), map[i].elem_size );
-            }
-        }
-    }
+reverse_bytes_by_map( data, map, map_count, MAX_RECURSION_DEPTH );
 }
+
