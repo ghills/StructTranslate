@@ -1,10 +1,10 @@
-//
-//  stranslate.c
-//  
-//
-//  Created by Gavin Hills on 11/15/13.
-//
-//
+/*
+ *  stranslate.c
+ *  
+ *
+ *  Created by Gavin Hills on 11/15/13.
+ *
+ */
 
 #include <assert.h>
 #include <stdint.h>
@@ -48,7 +48,7 @@ for( i = 0; i < map_count; i++ )
     {
     assert( map[i].elem_count > 0 );
     
-    // if the element is size 1, no need to do anything
+    /* if the element is size 1, no need to do anything */
     if( map[i].elem_size == 1 )
         {
         continue;
@@ -58,14 +58,14 @@ for( i = 0; i < map_count; i++ )
         {
         if( map[i].type_map )
             {
-            // nested structure, recurse!
-            //TODO: max depth limit this
-            strans_reverse_bytes_by_map( (void *)( data + map[i].offset + (j * map[i].elem_size)), map[i].type_map, map[i].type_count );
+            /* nested structure, recurse! */
+            /* TODO: max depth limit this */
+            strans_reverse_bytes_by_map( (void *)( (uint8_t *)data + map[i].offset + (j * map[i].elem_size)), map[i].type_map, map[i].type_count );
             }
         else
             {
-            // this field must be reversable
-            strans_reverse_bytes( (void *)( data + map[i].offset + (j * map[i].elem_size)), map[i].elem_size );
+            /* this field must be reversable */
+            strans_reverse_bytes( (void *)( (uint8_t *)data + map[i].offset + (j * map[i].elem_size)), map[i].elem_size );
             }
         }
     }

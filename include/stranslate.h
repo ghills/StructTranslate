@@ -1,10 +1,10 @@
-//
-//  stranslate.h
-//  
-//
-//  Created by Gavin Hills on 11/15/13.
-//
-//
+/*
+ *  stranslate.h
+ *  
+ *
+ *  Created by Gavin Hills on 11/15/13.
+ *
+ */
 
 #ifndef _stranslate_h
 #define _stranslate_h

@@ -33,8 +33,6 @@ type_map_t foo_map[] =
     strans_primitive( foo_t, uint32_2 )
     };
 
-//// FOR dev vvvvvv
-
 void print_foo_type( foo_t * str )
 {
     uint8_t * ptr;
@@ -92,6 +90,7 @@ int main( int argc, char * argv[] )
 
     printf("BEFORE:\n");
     print_foo_type( &foo );
+    putchar( '\n' );
 
     strans_reverse_bytes_by_map( &foo, foo_map, cnt_of_array(foo_map) );
 
