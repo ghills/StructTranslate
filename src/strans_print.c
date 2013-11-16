@@ -72,7 +72,8 @@ for( i = 0; i < map_count; i++ )
     /* indent in the right number of tabs */
     for( tab_i = 0; tab_i < iter_depth; tab_i++ )
         {
-        putchar('\t');
+        putchar(' ');
+        putchar(' ');
         }
 
     if( map[i].type_map )
