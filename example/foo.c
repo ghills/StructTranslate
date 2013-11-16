@@ -41,111 +41,39 @@ type_map_t foo_map[] =
     strans_primitive( foo_t, uint32_2 )
     };
 
+static const foo_t foo_init_data =
+{
+    117,
+    12345,
+    97293122,
+    { 24579234 },
+    { 3812, 16231, 114, 33333 },
+    8394023
+};
+
 /*
  * prototypes
  */
-
-static void print_n_bytes
-    ( 
-    uint8_t const * const 
-                data,
-    uint16_t    cnt
-    );
-
-static void print_n_elements
-    (
-    uint8_t const * const 
-                data,
-    uint16_t    cnt,
-    uint16_t    elem_sz
-    );
 
 
 /*
  * functions
  */
 
-
-static void print_n_bytes
-    ( 
-    uint8_t const * const 
-                data,
-    uint16_t    cnt
-    )
-{
-uint16_t i;
-
-for( i = 0; i < cnt; i++ )
-    {
-    printf( "%02X ", data[i] );
-    }
-
-}
-
-
-static void print_n_elements
-    (
-    uint8_t const * const 
-                data,
-    uint16_t    cnt,
-    uint16_t    elem_sz
-    )
-{
-uint16_t i;
-
-for( i = 0; i < cnt; i++ )
-    {
-    putchar('[');
-    putchar(' ');
-    print_n_bytes( data + ( elem_sz * i ), elem_sz );
-    putchar(']');
-    }
-
-}
-
-void print_foo_type( foo_t * str )
-{
-    uint16_t i;
-    uint8_t * ptr;
-
-    ptr = (uint8_t *)str;
-
-    for( i = 0; i < array_cnt(foo_map); i++ )
-        {
-        if( foo_map[i].elem_count > 1 )
-            {
-            print_n_elements( &ptr[ foo_map[i].offset ], foo_map[i].elem_count, foo_map[i].elem_size ); 
-            }
-        else
-            {
-            print_n_bytes( &ptr[ foo_map[i].offset ], foo_map[i].elem_size ); 
-            }
-        putchar('\n');
-        }
-}
-
 int main( int argc, char * argv[] )
 {
     foo_t foo;
 
-    foo.uint8 = 117;
-    foo.uint16 = 12345;
-    foo.uint32 = 97293122;
-    foo.subtype.uint32 = 24579234;
-    foo.arr[0] = 3812;
-    foo.arr[1] = 16231;
-    foo.arr[2] = 114;
-    foo.arr[3] = 33333;
-    foo.uint32_2 = 8394023;
+    foo = foo_init_data;
 
     printf("BEFORE:\n");
-    print_foo_type( &foo );
+    strans_print_by_map( &foo, foo_map, array_cnt(foo_map) );
     putchar( '\n' );
 
     strans_reverse_bytes_by_map( &foo, foo_map, array_cnt(foo_map) );
 
     printf("AFTER:\n");
-    print_foo_type( &foo );
+    strans_print_by_map( &foo, foo_map, array_cnt(foo_map) );
 
     return( 0 );
 }

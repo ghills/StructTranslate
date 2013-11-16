@@ -61,6 +61,8 @@ typedef struct
  *  Functions
  */
 
+/* stranslate.c */
+
 void strans_reverse_bytes
     (
     uint8_t * const data,
@@ -70,6 +72,17 @@ void strans_reverse_bytes
 void strans_reverse_bytes_by_map
     (
     void * const data,
+    type_map_t const * const
+                 map,
+    uint16_t     map_count
+    );
+
+/* strans_print.c */
+
+void strans_print_by_map
+    (
+    void const * const 
+                 data,
     type_map_t const * const
                  map,
     uint16_t     map_count

@@ -10,7 +10,7 @@ LIBS=
 _DEPS = stranslate.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = stranslate.o
+_OBJ = stranslate.o strans_print.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)
