@@ -3,6 +3,10 @@
 
 #include "stranslate.h"
 
+/*
+ * types
+ */
+
 typedef struct
 {
     uint32_t    uint32;
@@ -17,6 +21,10 @@ typedef struct
     uint16_t    arr[4];
     uint32_t    uint32_2;
 } foo_t;
+
+/*
+ * const data
+ */
 
 type_map_t subtype_map[] =
     {
@@ -33,45 +41,87 @@ type_map_t foo_map[] =
     strans_primitive( foo_t, uint32_2 )
     };
 
+/*
+ * prototypes
+ */
+
+static void print_n_bytes
+    ( 
+    uint8_t const * const 
+                data,
+    uint16_t    cnt
+    );
+
+static void print_n_elements
+    (
+    uint8_t const * const 
+                data,
+    uint16_t    cnt,
+    uint16_t    elem_sz
+    );
+
+
+/*
+ * functions
+ */
+
+
+static void print_n_bytes
+    ( 
+    uint8_t const * const 
+                data,
+    uint16_t    cnt
+    )
+{
+uint16_t i;
+
+for( i = 0; i < cnt; i++ )
+    {
+    printf( "%02X ", data[i] );
+    }
+
+}
+
+
+static void print_n_elements
+    (
+    uint8_t const * const 
+                data,
+    uint16_t    cnt,
+    uint16_t    elem_sz
+    )
+{
+uint16_t i;
+
+for( i = 0; i < cnt; i++ )
+    {
+    putchar('[');
+    putchar(' ');
+    print_n_bytes( data + ( elem_sz * i ), elem_sz );
+    putchar(']');
+    }
+
+}
+
 void print_foo_type( foo_t * str )
 {
+    uint16_t i;
     uint8_t * ptr;
 
-    // foo_t : uint8
-    ptr = (uint8_t *)&str->uint8;
-    printf( "uint8:\t\t %02X\n", ptr[0] );
+    ptr = (uint8_t *)str;
 
-    // foo_t : uint16
-    ptr = (uint8_t *)&str->uint16;
-    printf( "uint16:\t\t %02X %02X\n", ptr[0], ptr[1] );
-
-    // foo_t : uint32
-    ptr = (uint8_t *)&str->uint32;
-    printf( "uint32:\t\t %02X %02X %02X %02X\n", ptr[0], ptr[1], ptr[2], ptr[3]);
-
-    // subtype_t : uint32
-    ptr = (uint8_t *)&str->subtype.uint32;
-    printf( "subtype.uint32:\t %02X %02X %02X %02X\n", ptr[0], ptr[1], ptr[2], ptr[3]);
-
-    // foo_t : arr[0]
-    ptr = (uint8_t *)&str->arr[0];
-    printf( "arr[0]:\t\t %02X %02X\n", ptr[0], ptr[1] );
-
-    // foo_t : arr[1]
-    ptr = (uint8_t *)&str->arr[1];
-    printf( "arr[1]:\t\t %02X %02X\n", ptr[0], ptr[1] );
-
-    // foo_t : arr[2]
-    ptr = (uint8_t *)&str->arr[2];
-    printf( "arr[2]:\t\t %02X %02X\n", ptr[0], ptr[1] );
-
-    // foo_t : arr[3]
-    ptr = (uint8_t *)&str->arr[3];
-    printf( "arr[3]:\t\t %02X %02X\n", ptr[0], ptr[1] );
-
-    // foo_t : uint32_2
-    ptr = (uint8_t *)&str->uint32_2;
-    printf( "uint32_2:\t %02X %02X %02X %02X\n", ptr[0], ptr[1], ptr[2], ptr[3]);
+    for( i = 0; i < cnt_of_array(foo_map); i++ )
+        {
+        if( foo_map[i].elem_count > 1 )
+            {
+            print_n_elements( &ptr[ foo_map[i].offset ], foo_map[i].elem_count, foo_map[i].elem_size ); 
+            }
+        else
+            {
+            print_n_bytes( &ptr[ foo_map[i].offset ], foo_map[i].elem_size ); 
+            }
+        putchar('\n');
+        }
 }
 
 int main( int argc, char * argv[] )
