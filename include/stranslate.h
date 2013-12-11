@@ -87,5 +87,38 @@ void strans_print_by_map
                  map,
     uint16_t     map_count
     );
+    
+/* strans_stream.c */
+
+void strans_stream_collapse
+    (
+    void const * const
+                data,
+    type_map_t const * const
+                map,
+    uint16_t    map_count,
+    uint8_t   * buf,
+    uint16_t    buf_sz
+    );
+    
+void strans_stream_expand
+    (
+    void const * const
+                data,
+    type_map_t const * const
+                map,
+    uint16_t    map_count,
+    uint8_t   * buf,
+    uint16_t    buf_sz
+    );
+    
+/* strans_util.c */
+
+uint32_t strans_map_data_size
+    (
+    type_map_t const * const
+                map,
+    uint16_t    map_count
+    );
 
 #endif
