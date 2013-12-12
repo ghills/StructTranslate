@@ -6,6 +6,9 @@
  *
  */
  
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
  #include "stranslate.h"
  
 /*
@@ -38,9 +41,35 @@ static uint32_t map_data_size
     uint8_t     iters_remain
     )
 {
-/* TODO: implement */
+uint32_t size;
+uint16_t i;
 
-return( 0 );
+size = 0;
+
+for( i = 0; i < map_count; i++ )
+    {
+    if( map[i].type_map )
+        {
+        /* nested structure, recurse! */
+        if( iters_remain > 0 )
+            {
+            size += ( map[i].elem_count * map_data_size( map[i].type_map, map[i].type_count, iters_remain - 1 ) );
+            }
+        else
+            {
+            perror("Recursion Depth");
+            exit(-1);
+            }
+        }
+    else
+        {
+        /* copy this amount */
+        size += ( map[i].elem_count * map[i].elem_size );
+        }
+    }
+
+return( size );
+
 }
 
 /*
